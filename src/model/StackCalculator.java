@@ -1,4 +1,4 @@
-package calc;
+package model;
 
 import java.util.Stack;
 
