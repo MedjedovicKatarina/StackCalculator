@@ -23,6 +23,17 @@ public class StackCalculator {
 	public StackCalculator() {
 		this.stack = new Stack<Integer>();
 	}
+	
+	/**
+	 * 
+	 * The constructor for the StackCalculator class. Used for setting the stack to the passed argument.
+	 * 
+	 * @param stack The Stack which is to be added to the StackCalculator.
+	 * 
+	 */
+	public StackCalculator(Stack<Integer> stack) {
+		this.stack = stack;
+	}
 
 	/**
 	 * 
@@ -33,6 +44,5 @@ public class StackCalculator {
 	 */
 	public Stack<Integer> getStack() {
 		return stack;
-	}
-	
+	}	
 }

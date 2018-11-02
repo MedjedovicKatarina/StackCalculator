@@ -19,7 +19,8 @@ import model.StackCalculator;
  * 
  * This class handles all of the GET and PUT requests needed for the execution of the Calculator.
  * The CalculatorServer contains multiple useful methods for the execution of the tasks at hand.
- * These methods are: push, peek, pop, add, subtract, multiply and divide.
+ * These methods are: push, peek, pop, add, subtract, multiply and divide. It contains the static
+ * LinkedHashMap containing all of the StackCalculators and their ids.
  * 
  * @author Katarina Mededovic
  * 
@@ -36,6 +37,20 @@ public class CalculatorServer {
 	 * 
 	 */
 	public CalculatorServer() {}
+	
+	/**
+	 * 
+	 * The constructor for the CalculatorServer class. Used for creating the first 
+	 * StackCalculator, and adding it under the specified key to the static LinkedHashMap 
+	 * field which stores all of the StackCalculators.
+	 * 
+	 * @param id The id of the StackCalculator which is added.
+	 * @param sc The StackCalculator which is added.
+	 * 
+	 */
+	public CalculatorServer(Integer id, StackCalculator sc) {
+		CalculatorServer.calculators.put(id, sc);
+	}
 	
 	/**
 	 * 
@@ -92,7 +107,7 @@ public class CalculatorServer {
 					.build();		
 		} else {
 			rm.setStatusCode(Response.Status.NOT_FOUND.getStatusCode());
-			rm.setResponseMessage("The calculator with id " + id + " does not exist.");
+			rm.setResponseMessage("The stack is empty or the calculator with id " + id + " does not exist.");
 			resource = Response.status(Status.NOT_FOUND)
 					.entity(rm)
 					.build();
@@ -282,5 +297,27 @@ public class CalculatorServer {
 					.build();
 		}
 		return resource;
+	}
+	
+	/**
+	 * 
+	 * Returns the status code of the ResponseMessage in question.
+	 * 
+	 * @return Status code of the ResponseMessage in question.
+	 * 
+	 */
+	public void addCalculator(int id, StackCalculator sc) {
+		CalculatorServer.calculators.put(id, sc);
+	}
+	
+	/**
+	 * 
+	 * Returns the static LinkedHashMap containing all of the StackCalculators and their ids.
+	 * 
+	 * @return Static LinkedHashMap containing all of the StackCalculators and their ids.
+	 * 
+	 */
+	public LinkedHashMap<Integer, StackCalculator> getCalculators() {
+		return CalculatorServer.calculators;
 	}
 }
