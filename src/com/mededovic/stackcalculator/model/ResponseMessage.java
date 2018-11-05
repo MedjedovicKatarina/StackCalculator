@@ -1,4 +1,4 @@
-package model;
+package com.mededovic.stackcalculator.model;
 
 /**
  * 

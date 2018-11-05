@@ -1,4 +1,4 @@
-package test;
+package com.mededovic.stackcalculator.test;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.ResponseMessage;
-import model.StackCalculator;
-import server.CalculatorServer;
+import com.mededovic.stackcalculator.model.ResponseMessage;
+import com.mededovic.stackcalculator.model.StackCalculator;
+import com.mededovic.stackcalculator.server.CalculatorServer;
 
 public class TestCalculatorServer {
 	private CalculatorServer calculatorServer;
@@ -416,5 +416,17 @@ public class TestCalculatorServer {
 		ResponseMessage rm = new ResponseMessage("Division by zero is forbidden.", Response.Status.FORBIDDEN.getStatusCode());		
 		assertEquals(rm.getResponseMessage(), ((ResponseMessage) divideResponse.getEntity()).getResponseMessage());
 		assertEquals(rm.getStatusCode(), ((ResponseMessage) divideResponse.getEntity()).getStatusCode());
+	}
+	
+	@Test
+	public void testClear() {    
+		assertNotNull(calculatorServer);	
+		Response clearResponse = calculatorServer.clear();
+		assertTrue(calculatorServer.getCalculators().isEmpty());
+		
+		//Make sure that the relevant response has been provided
+		ResponseMessage rm = new ResponseMessage("All calculators cleared", Response.Status.OK.getStatusCode());		
+		assertEquals(rm.getResponseMessage(), ((ResponseMessage) clearResponse.getEntity()).getResponseMessage());
+		assertEquals(rm.getStatusCode(), ((ResponseMessage) clearResponse.getEntity()).getStatusCode());
 	}
 }

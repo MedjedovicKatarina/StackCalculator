@@ -1,8 +1,9 @@
-package server;
+package com.mededovic.stackcalculator.server;
 
 import java.util.LinkedHashMap;
 import java.util.Stack;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -12,8 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import model.ResponseMessage;
-import model.StackCalculator;
+import com.mededovic.stackcalculator.model.ResponseMessage;
+import com.mededovic.stackcalculator.model.StackCalculator;
 
 /**
  * 
@@ -301,9 +302,33 @@ public class CalculatorServer {
 	
 	/**
 	 * 
+	 * Clears the LinkedHashMap containing all of the calculators.
+	 * 
+	 * @return The Response in a JSON format.
+	 * 
+	 */
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/clear")
+	public Response clear() {
+		Response resource = null;
+		ResponseMessage rm = new ResponseMessage();
+		CalculatorServer.calculators.clear();
+		rm.setStatusCode(Response.Status.OK.getStatusCode());
+		rm.setResponseMessage("All calculators cleared");
+		resource = Response.status(Status.OK)
+				.entity(rm)
+				.build();
+		
+		return resource;
+	}
+	
+	/**
+	 * 
 	 * Returns the status code of the ResponseMessage in question.
 	 * 
-	 * @return Status code of the ResponseMessage in question.
+	 * @param id The id of the StackCalculator which is added
+	 * @param sc The StackCalculator which is added
 	 * 
 	 */
 	public void addCalculator(int id, StackCalculator sc) {
