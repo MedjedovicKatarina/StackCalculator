@@ -67,21 +67,27 @@ public class CalculatorServer {
 	@Path("/push/{n}")
 	public Response push(@PathParam("id") int id, @PathParam("n") int n) {
 		Response resource = null;
+		Stack<Integer> currStack = null;
+		ResponseMessage rm = new ResponseMessage();
 		if (calculators.containsKey(id)) {
-			calculators.get(id).getStack().push(n);							
+			calculators.get(id).getStack().push(n);
+			currStack = calculators.get(id).getStack();
+			rm.setStatusCode(Response.Status.OK.getStatusCode());
+			rm.setResponseMessage("The top of the stack is " + currStack.peek() + ".");
+			resource = Response.status(Status.OK)
+					.entity(rm)
+					.build();
 		} else {
 			StackCalculator newCalculator = new StackCalculator();
 			newCalculator.getStack().push(n);
 			calculators.put(id, newCalculator);
-		}
-		Stack<Integer> currStack = calculators.get(id).getStack();
-		ResponseMessage rm = new ResponseMessage();
-		rm.setStatusCode(Response.Status.OK.getStatusCode());
-		rm.setResponseMessage("The top of the stack is " + currStack.peek() + ".");
-		resource = Response.status(Status.OK)
-				.entity(rm)
-				.build();
-		
+			currStack = calculators.get(id).getStack();
+			rm.setStatusCode(Response.Status.CREATED.getStatusCode());
+			rm.setResponseMessage("The top of the stack is " + currStack.peek() + ".");
+			resource = Response.status(Status.CREATED)
+					.entity(rm)
+					.build();
+		}		
 		return resource;
 	}
 	
@@ -124,7 +130,7 @@ public class CalculatorServer {
 	 * @return    The Response in a JSON format.
 	 * 
 	 */
-	@GET
+	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/pop")
 	public Response pop(@PathParam("id") int id) {

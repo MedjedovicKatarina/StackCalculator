@@ -82,7 +82,7 @@ public class TestCalculatorServer {
 		assertTrue((stack.size() == 1) && stack.peek() == 1);
 		
 		//Make sure that the relevant response has been provided
-		ResponseMessage rm = new ResponseMessage("The top of the stack is 1.", Response.Status.OK.getStatusCode());		
+		ResponseMessage rm = new ResponseMessage("The top of the stack is 1.", Response.Status.CREATED.getStatusCode());		
 		assertEquals(rm.getResponseMessage(), ((ResponseMessage) pushResponse.getEntity()).getResponseMessage());
 		assertEquals(rm.getStatusCode(), ((ResponseMessage) pushResponse.getEntity()).getStatusCode());
 	}
